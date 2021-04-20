@@ -1,0 +1,50 @@
+﻿@page
+@model IndexModel
+
+<div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-12 d-flex justify-content-end">
+            <form asp-page-handler="AddRoom" class="form-inline p-2 m-2" method="post">
+                <div class="form-group">
+                    <input type="text" name="roomname" class="form-control" placeholder="Room Name" />
+                    <button type="submit" class="btn btn-secondary btn-lg">Add</button>
+                </div>
+            </form>
+            <form asp-page-handler="JoinRoomByName" class="form-inline p-2 m-2" method="post">
+                <div class="form-group">
+                    <input type="text" name="roomName" class="form-control" placeholder="Room Name(Tag)" />
+                    <button type="submit" class="btn btn-secondary btn-lg">Join</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">&nbsp;</div>
+        @foreach (var room in Model.Rooms)
+        {
+            @if (!room.IsFull)
+            {
+                <div class="row row shadow-lg p-3 mb-5 bg-white rounded">
+                    <div class="col">
+                        <h1 style="margin:0">@room.Name</h1>
+                    </div>
+                    <div class="col">
+                        @foreach (var participant in room.Participants)
+                        {
+                            <p>@participant.Name</p>
+                        }
+                    </div>
+                    <div class="col">
+                        <form asp-page-handler="JoinRoom" method="post">
+                            <div class="d-flex justify-content-center">
+                                <input type="hidden" name="roomid" value="@room.Id" />
+                                <button type="submit" class="btn btn-secondary btn-lg ">Join</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            }
+        }
+
+</div>
+
